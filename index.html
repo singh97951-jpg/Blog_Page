@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<style>
+    body{
+        background-image: url("https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjU0NmJhdGNoMy1teW50LTM0LWJhZGdld2F0ZXJjb2xvcl8xLmpwZw.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        }
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Blog Posts</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav">
+                <li class="nav-item me-2">
+                    <a class="nav-link active" aria-current="page">Home</a>
+                </li>
+            </ul>
+            <div class="collapse navbar-collapse d-flex" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item me-2">
+                        <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#RegisterModal">
+                            Register
+                        </button>
+                    </li>
+                    <li class="nav-item me-2">
+                        <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#LoginModal">
+                            Login
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="modal fade" id="RegisterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Register</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/signup">
+                        <div class="modal-body">
+                            <input type="text" name="name" id="sn" class="form-control" placeholder="Full Name" required>
+                            <input type="email" name="email" id="e" class="form-control" placeholder="Email" required>
+                            <input type="text" name="contact" id="c" class="form-control" placeholder="Contact" required>
+                            <input type="password" name="password" id="p" class="form-control" placeholder="Create Password" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Sign up</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="LoginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/login">
+                        <div class="modal-body">
+                            <input type="email" name="reg_email" id="e" class="form-control" placeholder="Email" required>
+                            <input type="password" name="reg_password" id="p" class="form-control" placeholder="Create Password" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        {%  endif %}
+        {%  endwith %}
+    </div>
+    <div class="container mt-3">
+        {% for post in posts %}
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post['Title'] }}</h5>
+                    <p class="card-text">{{ post['Description'] }}</p>
+                    <p class="text-muted">Author: {{ post['Author'] }}</p>
+                    <a href="/view_post/{{ post._id }}" class="btn btn-primary">View Post</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>  
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</html>
